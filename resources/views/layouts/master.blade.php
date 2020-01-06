@@ -10,11 +10,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>LaraStart</title>
+  <!-- <title>LaraStart</title> -->
+  
+  <title>{{ env('APP_NAME') }}</title>
+
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="stylesheet" href="/css/app.css">
 </head>
-<body class="hold-transition sidebar-mini" >
+<body class="hold-transition sidebar-mini" style="min-height: 512.391px;">
 <div class="wrapper" id="app">
 
   <!-- Navbar -->
@@ -48,7 +51,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <a href="#" class="brand-link">
       <img src="./img/logo.png" alt="LaraStart Logo" class="brand-image img-circle elevation-3"
            style="opacity: .9">
-      <span class="brand-text font-weight-light">LaraStart</span>
+      <span class="brand-text font-weight-light">{{ env('APP_NAME') }}</span>
     </a>
 
     <!-- Sidebar -->
@@ -100,6 +103,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           
         <li class="nav-item">
+            <router-link to="/developer" class="nav-link">
+              <i class="nav-icon fas fa-cogs"></i>
+              <p>
+                Developer
+                
+              </p>
+            </router-link>
+          </li>
+
+          <li class="nav-item">
             <router-link to="/profile" class="nav-link">
               <i class="nav-icon fas fa-user text-orange"></i>
               <p>
@@ -154,7 +167,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       We can do <strong>IT!</strong>
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2019 LaraStart.</strong> All rights reserved.
+    <strong>LaraStart 2019.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->
