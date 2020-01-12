@@ -15,8 +15,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(
+    ['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+/*
+Route::get('invoice', function(){
+    return view('invoice');
+});
+*/
+
 Route::get('{path}', 'HomeController@index')->where( 'path', '([A-z]+)?' );
+

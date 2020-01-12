@@ -23,35 +23,7 @@
                 <div class="widget-user-image">
                     <img class="img-circle" :src="getProfilePhoto()" alt="User Avatar">
                 </div>
-                <div class="card-footer">
-                    <div class="row">
-                    <div class="col-sm-4 border-right">
-                        <div class="description-block">
-                        <h5 class="description-header">3,200</h5>
-                        <span class="description-text">SALES</span>
-                        </div>
-                        <!-- /.description-block -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-sm-4 border-right">
-                        <div class="description-block">
-                        <h5 class="description-header">13,000</h5>
-                        <span class="description-text">FOLLOWERS</span>
-                        </div>
-                        <!-- /.description-block -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-sm-4">
-                        <div class="description-block">
-                        <h5 class="description-header">35</h5>
-                        <span class="description-text">PRODUCTS</span>
-                        </div>
-                        <!-- /.description-block -->
-                    </div>
-                    <!-- /.col -->
-                    </div>
-                    <!-- /.row -->
-                </div>
+                
                 </div>
             </div>
 
@@ -92,7 +64,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
+                                    <label for="inputExperience" class="col-sm-2 control-label">Bio</label>
 
                                     <div class="col-sm-12">
                                     <textarea  v-model="form.bio" class="form-control" id="inputExperience" placeholder="Experience" :class="{ 'is-invalid': form.errors.has('bio') }"></textarea>
@@ -108,14 +80,14 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="password" class="col-sm-12 control-label">Passport (leave empty if not changing)</label>
+                                    <label for="password" class="col-sm-12 control-label">Password (leave empty if not changing)</label>
 
                                     <div class="col-sm-12">
                                     <input type="password"
                                         v-model="form.password"
                                         class="form-control"
                                         id="password"
-                                        placeholder="Passport"
+                                        placeholder="Password"
                                         :class="{ 'is-invalid': form.errors.has('password') }"
                                     >
                                      <has-error :form="form" field="password"></has-error>
@@ -123,7 +95,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-12">
+                                    <div class="col-sm-offset-2 col-sm-12"><!--  -->
                                     <button @click.prevent="updateInfo" type="submit" class="btn btn-success">Update</button>
                                     </div>
                                 </div>
@@ -173,7 +145,7 @@
                 }
                 this.form.put('api/profile')
                 .then(()=>{
-                     Fire.$emit('AfterCreate');
+                    Fire.$emit('AfterCreate');
                     this.$Progress.finish();
                 })
                 .catch(() => {
@@ -185,7 +157,7 @@
                 let reader = new FileReader();
                 let limit = 1024 * 1024 * 2;
                 if(file['size'] > limit){
-                    swal({
+                    swal.fire({
                         type: 'error',
                         title: 'Oops...',
                         text: 'You are uploading a large file',

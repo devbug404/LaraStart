@@ -10,6 +10,7 @@ $fa-font-path:"../webfonts";
 @import '~bootstrap/scss/bootstrap';
 @import '~admin-lte/dist/css/adminlte.css';
 
+
 @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~@fortawesome/fontawesome-free/scss/brands.scss";
@@ -22,4 +23,24 @@ $fa-font-path:"../webfonts";
 .router-link-exact-active{
   background-color: #3f51b5;
   color: #fff !important;
+}
+
+@media print {
+  .nav.nav-tabs li:not(.active){
+    display: none;
+  }
+  .invoice{
+    padding: 10px 20px;
+  }
+  .invoice{
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+  .table-responsive table{
+    background-color: transparent !important;
+  }
+}
+
+@page {
+  margin: 0;
 }

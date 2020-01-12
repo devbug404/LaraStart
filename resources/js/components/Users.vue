@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="row mt-5">
+        <div class="row mt-5" v-if="$gate.isAdminORAuthor()">
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
@@ -15,18 +15,18 @@
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover">
-                  
+                  <tbody>
                     <tr>
-                        <th>ID</th>
+                        <th>Users ID</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Type</th>
+                        <th>Access Type</th>
                         <th>Created Date</th>
                         <th>Modify</th>
                     </tr>
-                  
-                  
-                    <tr v-for="user in users" :key="user.id">
+                    
+                    <tr v-for="user in users.data" :key="user.id">
+                      
                       <td>{{ user.id }}</td>
                       <td>{{ user.name }}</td>
                       <td>{{ user.email }}</td>
@@ -41,14 +41,22 @@
                           </a>
                       </td>
                     </tr>
-                  
+                    
+                  </tbody>
                 </table>
               </div>
               <!-- /.card-body -->
+              <div class="card-footer">
+                  <pagination :data="users" @pagination-change-page="getResults"></pagination>
+              </div>
             </div>
             <!-- /.card -->
           </div>
         </div>
+
+          <div v-if="!$gate.isAdminORAuthor()">
+            <not-found></not-found>
+          </div>
 
           <!-- Modal -->
           <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
@@ -133,6 +141,12 @@
           }
         },
         methods:{
+          getResults(page = 1) {
+			                axios.get('api/user?page=' + page)
+				                .then(response => {
+					                this.users = response.data;
+				                });
+          },
           updateUser(){
             // console.log('Editing data');
             this.form.put('api/user/'+this.form.id)
@@ -184,13 +198,16 @@
                         this.$Progress.finish();
                         Fire.$emit('AfterCreate');
                     }).catch(() =>{
-                        swal("Failed!", "There was something wrong.", "warning");
+                        this.$Progress.fail();
+                        swal.fire("Failed!", "There was something wrong.", "warning");
                     });
                 }
             })
           },
           loadUsers(){
-            axios.get("api/user").then(({ data }) => (this.users = data.data));
+            if(this.$gate.isAdminORAuthor()){
+            axios.get("api/user").then(({ data }) => (this.users = data));
+            }
           },
 
           createUser(){
@@ -214,6 +231,16 @@
           }
         },
         created() {
+            Fire.$on('searching',() => {
+              let query = this.$parent.search;
+              axios.get('api/findUser?q=' + query)
+              .then((data) => {
+                  this.users = data.data
+              })
+              .catch(() => {
+                
+              })
+            })
             this.loadUsers();
             Fire.$on('AfterCreate',() => {
               this.loadUsers();
